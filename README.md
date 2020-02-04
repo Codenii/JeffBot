@@ -19,6 +19,17 @@ cd JeffBot
 npm install discord.js
 ```
 
+**Setup Config File:**
+```
+vi config.json
+```
+```
+{
+    "prefix": "<prefix for bot commands(!, $, %, etc)>",
+    "token": "<bot token goes here>"
+}
+```
+
 **Run Bot:**
 ```
 node ./index.js
