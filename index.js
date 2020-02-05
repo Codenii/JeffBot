@@ -69,20 +69,29 @@ client.on('message', async message => {
         let channeltype = args[0];
         let name = args.slice(1).join(' ');
         
-        if (channeltype.toLowerCase() === "voice") {
-            message.guild.createChannel(name, channeltype);
-            message.channel.send("Voice Channel Created")
-        }
-        else if (channeltype.toLowerCase() === "text") {
-            message.guild.createChannel(name, channeltype);
-            message.channel.send("Text Channel Created")
+        if (channeltype.toLowerCase() === "voice" || channeltype.toLowerCase() === "text") {
+            let existerror = false;
+            message.guild.channels.forEach(channel => {
+                if (channel.type === channeltype) {
+                    if (name.toLowerCase() === channel.name.toLowerCase()) {
+                        existerror = true;
+                    }
+                }
+            });
+            if (existerror === false) {
+                message.guild.createChannel(name, channeltype);
+                channeltype = channeltype.charAt(0).toUpperCase() + channeltype.slice(1)
+                message.channel.send(`${channeltype} Channel Created!`)
+            }
+            else {
+                message.channel.send(`Channel with name ${name} already exists!`);
+            }
         }
         else {
             message.channel.send("Invalid channel type provided.")
         }
     }
 
-    if (command === "")
 })
 
 
