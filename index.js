@@ -93,6 +93,31 @@ client.on('message', async message => {
     }
 
 })
+client.on('voiceStateUpdate', (oldMember, newMember) => {
+    let newUserChannel = newMember.voiceChannel;
+    let oldUserChannel = oldMember.voiceChannel;
+    let childrenchannels = [];
+
+    if (oldUserChannel === undefined && newUserChannel !== undefined) {
+        console.log(`Joined ${newUserChannel.name}`);
+        if (newUserChannel.parent) {
+            console.log(`Parent Channel: ${newUserChannel.parent.name}`)
+            newUserChannel.parent.children.forEach(channel => {
+                childrenchannels.push(channel.name);
+            })
+            console.log(`Children to parent: ${childrenchannels}`)
+        }
+        else {
+            console.log("Channel doesn't have a parent")
+        }
+    }
+    else if (newUserChannel === undefined) {
+        console.log(`Left ${oldUserChannel.name}`)
+    }
+    else if (oldUserChannel !== undefined && newUserChannel !== undefined) {
+        console.log(`moved from ${oldUserChannel.name} to ${newUserChannel.name}`);
+    }
+});
 
 
 
